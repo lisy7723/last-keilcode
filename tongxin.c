@@ -1,0 +1,25 @@
+#include "reg51.h"
+#define uchar unsigned char
+uchar TRA[16]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0x88,0x83,0xc6,0xa1,0x86,0x8e};
+uchar it=0;
+void init(){
+	TMOD=0X20;
+	SCON=0xC0;
+	PCON=0x00;
+	EA=1;
+	TH1=0xFA;
+	TL1=0xFA;
+	TI=0;
+	TR1=1;
+}
+int main(){
+	init();
+	while(1){
+		if(it<16){
+			SBUF=TRA[it++];
+			while(!TI);
+			TI=0;
+		}
+	}
+	return 0;
+}
